@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#3B939A</color>
+    <color name="colorSecondary">#CFD879</color>
+    <color name="colorAccent">#707070</color>
+    <color name="errorColor">#B95959</color>
+    <color name="hintColor">#525252</color>
+    <color name="dashboardBgColor">#F7F7F7</color>
+    <color name="navColor">#E6FCFF</color>
+</resources>
