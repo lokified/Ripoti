@@ -39,5 +39,18 @@
         android:id="@+id/homeFragment"
         android:name="com.loki.ripoti.ui.home.presentation.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_reportDetailFragment"
+            app:destination="@id/reportDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportDetailFragment"
+        android:name="com.loki.ripoti.ui.report_detail.components.ReportDetailFragment"
+        android:label="fragment_report_detail"
+        tools:layout="@layout/fragment_report_detail" >
+        <argument
+            android:name="report"
+            app:argType="com.loki.ripoti.data.remote.response.Reports" />
+    </fragment>
 </navigation>

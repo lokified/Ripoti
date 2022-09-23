@@ -1,13 +1,18 @@
 package com.loki.ripoti.di
 
 import com.loki.ripoti.data.remote.RipotiApi
+import com.loki.ripoti.data.repository.CommentsRepositoryImpl
 import com.loki.ripoti.data.repository.OnboardingRepositoryImpl
 import com.loki.ripoti.data.repository.ReportsRepositoryImpl
+import com.loki.ripoti.domain.repository.CommentsRepository
 import com.loki.ripoti.domain.repository.OnBoardingRepository
 import com.loki.ripoti.domain.repository.ReportsRepository
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
 import com.loki.ripoti.domain.useCases.auth.login.LoginUserUseCase
 import com.loki.ripoti.domain.useCases.auth.registration.RegisterUserUseCase
+import com.loki.ripoti.domain.useCases.comments.AddCommentUseCase
+import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
+import com.loki.ripoti.domain.useCases.comments.GetCommentsUseCase
 import com.loki.ripoti.domain.useCases.reports.*
 import com.loki.ripoti.util.Constants
 import dagger.Module
@@ -20,7 +25,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
 
     @Provides
     @Singleton
@@ -47,6 +52,12 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideCommentsRepository(api: RipotiApi): CommentsRepository {
+        return CommentsRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthUseCase(repository: OnBoardingRepository): AuthUseCase {
 
         return AuthUseCase(
@@ -64,6 +75,16 @@ class AppModule {
             getReports = GetReportsUseCase(repository),
             updateReport = UpdateReportUseCase(repository),
             deleteReport = DeleteReportUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCommentsUseCase(repository: CommentsRepository): CommentsUseCase {
+
+        return CommentsUseCase(
+            addComment = AddCommentUseCase(repository),
+            getComments = GetCommentsUseCase(repository)
         )
     }
 }

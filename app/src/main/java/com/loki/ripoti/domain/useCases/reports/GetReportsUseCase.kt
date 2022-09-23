@@ -16,8 +16,8 @@ class GetReportsUseCase(
 
         try {
             emit(Resource.Loading<List<Reports>>())
-            val coins = repository.getReports()
-            emit(Resource.Success<List<Reports>>(data = coins))
+            val reports = repository.getReports()
+            emit(Resource.Success<List<Reports>>(data = reports))
         } catch (e: HttpException) {
             emit(
                 Resource.Error<List<Reports>>(

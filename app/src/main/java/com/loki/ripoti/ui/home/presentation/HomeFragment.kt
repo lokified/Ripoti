@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.loki.ripoti.R
+import com.loki.ripoti.data.remote.response.Reports
 import com.loki.ripoti.databinding.FragmentHomeBinding
 import com.loki.ripoti.ui.home.ReportsViewModel
 import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast
-import com.loki.ripoti.util.reportList
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,10 +42,15 @@ class HomeFragment : Fragment() {
         binding.apply {
 
             reportAdapter = ReportAdapter { reports ->
-                navigateToReportComments(reports.id)
+                navigateToReportComments(reports)
             }
             reportRecycler.adapter = reportAdapter
-            reportAdapter.setReportList(reportList)
+            reportRecycler.addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).orientation
+                )
+            )
         }
     }
 
@@ -61,7 +69,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun navigateToReportComments(reportId: Int) {
+    private fun navigateToReportComments(reports: Reports) {
 
+        val action = HomeFragmentDirections.actionHomeFragmentToReportDetailFragment(
+            report = reports
+        )
+        findNavController().navigate(action)
     }
 }

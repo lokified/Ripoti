@@ -76,4 +76,9 @@ class RegistrationFragment : Fragment() {
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.state.value?.message = ""
+    }
 }

@@ -33,10 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Home"
+                android:textColor="@color/black"
                 android:layout_margin="8dp"
                 android:textStyle="bold"
-                android:textSize="25sp"
-                android:textAlignment="center"/>
+                android:textSize="25sp"/>
         </LinearLayout>
 
 

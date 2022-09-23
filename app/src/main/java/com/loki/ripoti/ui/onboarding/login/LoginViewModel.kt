@@ -29,7 +29,8 @@ class LoginViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     _state.value = LoginState(
-                        message = result.data?.token!!
+                        message = result.data?.token!!,
+                        isLoggedIn = true
                     )
                 }
                 is Resource.Error -> {

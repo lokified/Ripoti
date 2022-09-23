@@ -1,8 +1,10 @@
 package com.loki.ripoti.data.remote
 
+import com.loki.ripoti.data.remote.response.Comments
 import com.loki.ripoti.data.remote.response.LoginResponse
 import com.loki.ripoti.data.remote.response.Reports
 import com.loki.ripoti.data.remote.response.UserResponse
+import com.loki.ripoti.domain.model.Comment
 import com.loki.ripoti.domain.model.Login
 import com.loki.ripoti.domain.model.Report
 import com.loki.ripoti.domain.model.User
@@ -39,4 +41,14 @@ interface RipotiApi {
     suspend fun deleteReport(
         @Path("id") id: Int
     ): UserResponse
+
+    @POST("addComment/{userId}")
+    suspend fun addComment(
+        @Body comment: Comment
+    ): UserResponse
+
+    @GET("getCommentsInReport/{reportId}")
+    suspend fun getCommentsInReport(
+        @Path("reportId") reportId: Int
+    ): List<Comments>
 }

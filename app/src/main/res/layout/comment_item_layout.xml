@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_marginBottom="12dp">
+
+    <ImageView
+        android:id="@+id/user_iv"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="8dp"
+        tools:src="@tools:sample/avatars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/username_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="anonymous"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/name_txt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="/@loki"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/more_vert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more_hor"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/comment_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@tools:sample/lorem/random"
+            android:maxLines="4"
+            android:ellipsize="marquee"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</LinearLayout>

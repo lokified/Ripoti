@@ -58,8 +58,7 @@ class LoginFragment : Fragment() {
                 val login = Login(email, password)
                 viewModel.loginUser(login)
 
-                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                findNavController().navigate(action)
+
             }
         }
     }
@@ -73,10 +72,17 @@ class LoginFragment : Fragment() {
             if (state.message.isNotBlank()) {
                 showToast(state.message)
 
+                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                findNavController().navigate(action)
             }
             if (state.error.isNotBlank()) {
                 showToast(state.error)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.state.value?.message = ""
     }
 }
