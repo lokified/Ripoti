@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui
+package com.loki.ripoti.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

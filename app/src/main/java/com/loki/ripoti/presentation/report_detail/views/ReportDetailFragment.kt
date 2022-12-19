@@ -1,15 +1,17 @@
-package com.loki.ripoti.ui.report_detail.components
+package com.loki.ripoti.presentation.report_detail.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.loki.ripoti.databinding.FragmentReportDetailBinding
-import com.loki.ripoti.ui.report_detail.CommentViewModel
+import com.loki.ripoti.presentation.report_detail.CommentViewModel
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,6 +51,12 @@ class ReportDetailFragment : Fragment() {
             commentsRecycler.adapter = commentsAdapter
             commentViewModel.getComments(args.report.id)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        })
     }
 
     private fun setUpObservers() {

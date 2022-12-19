@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.onboarding.registration.presentation
+package com.loki.ripoti.presentation.auth.registration.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.loki.ripoti.R
 import com.loki.ripoti.databinding.FragmentRegistrationBinding
 import com.loki.ripoti.domain.model.User
-import com.loki.ripoti.ui.onboarding.registration.RegistrationViewModel
+import com.loki.ripoti.presentation.auth.registration.RegistrationViewModel
 import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast

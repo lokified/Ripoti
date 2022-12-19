@@ -1,11 +1,11 @@
-package com.loki.ripoti.ui.home
+package com.loki.ripoti.presentation.report_detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.loki.ripoti.domain.model.Report
-import com.loki.ripoti.domain.useCases.reports.ReportsUseCase
+import com.loki.ripoti.domain.model.Comment
+import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
 import com.loki.ripoti.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -13,33 +13,30 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ReportsViewModel @Inject constructor(
-    private val reportsUseCase: ReportsUseCase
+class CommentViewModel @Inject constructor(
+    private val commentsUseCase: CommentsUseCase
 ): ViewModel() {
 
-    private val _state = MutableLiveData(ReportState())
-    val state: LiveData<ReportState> = _state
+    private val _state = MutableLiveData(CommentState())
+    val state: LiveData<CommentState> = _state
 
-    init {
-        getReports()
-    }
 
-    fun addReport(userId: Int, report: Report) {
+    fun addComment(comment: Comment) {
 
-        reportsUseCase.addReport(userId, report).onEach { result ->
+        commentsUseCase.addComment(comment).onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _state.value = ReportState(
+                    _state.value = CommentState(
                         isLoading = true
                     )
                 }
                 is Resource.Success -> {
-                    _state.value = ReportState(
+                    _state.value = CommentState(
                         message = result.data?.message!!
                     )
                 }
                 is Resource.Error -> {
-                    _state.value = ReportState(
+                    _state.value = CommentState(
                         error = result.message!!
                     )
                 }
@@ -47,22 +44,22 @@ class ReportsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getReports() {
+     fun getComments(reportId: Int) {
 
-        reportsUseCase.getReports().onEach { result ->
+        commentsUseCase.getComments(reportId).onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _state.value = ReportState(
+                    _state.value = CommentState(
                         isLoading = true
                     )
                 }
                 is Resource.Success -> {
-                    _state.value = ReportState(
-                        reports = result.data!!
+                    _state.value = CommentState(
+                        comment = result.data!!
                     )
                 }
                 is Resource.Error -> {
-                    _state.value = ReportState(
+                    _state.value = CommentState(
                         error = result.message!!
                     )
                 }

@@ -8,19 +8,21 @@
         <entry key="app/src/main/res/drawable/continue_bg.xml" value="0.1025" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.109" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.1025" />
+        <entry key="app/src/main/res/drawable/ic_more_hor.xml" value="0.1235" />
+        <entry key="app/src/main/res/drawable/img_circle.xml" value="0.1235" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21" />
         <entry key="app/src/main/res/layout/comment_item_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/fragment_report_detail.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/report_item_layout.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/report_item_layout.xml" value="0.33" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.19375" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -10,4 +10,9 @@
     <color name="hintColor">#525252</color>
     <color name="dashboardBgColor">#F7F7F7</color>
     <color name="navColor">#E6FCFF</color>
+    <color name="bgColor1">#70DDEC</color>
+    <color name="bgColor2">#E6FCFF</color>
+    <color name="bgColor3">#E6DA6D</color>
+    <color name="bgColor4">#F1736A</color>
+    <color name="bgColor5">#9055FA</color>
 </resources>

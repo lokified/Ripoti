@@ -7,16 +7,23 @@
 
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.loki.ripoti.ui.onboarding.LandingFragment"
+        android:name="com.loki.ripoti.presentation.auth.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_landing" >
         <action
             android:id="@+id/action_landingFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/landingFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_landingFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/landingFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.loki.ripoti.ui.onboarding.login.presentation.LoginFragment"
+        android:name="com.loki.ripoti.presentation.auth.login.presentation.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -28,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.loki.ripoti.ui.onboarding.registration.presentation.RegistrationFragment"
+        android:name="com.loki.ripoti.presentation.auth.registration.views.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
@@ -37,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.loki.ripoti.ui.home.presentation.HomeFragment"
+        android:name="com.loki.ripoti.presentation.home.views.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -46,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/reportDetailFragment"
-        android:name="com.loki.ripoti.ui.report_detail.components.ReportDetailFragment"
+        android:name="com.loki.ripoti.presentation.report_detail.views.ReportDetailFragment"
         android:label="fragment_report_detail"
         tools:layout="@layout/fragment_report_detail" >
         <argument

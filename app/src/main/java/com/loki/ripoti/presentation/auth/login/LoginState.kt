@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.onboarding.login
+package com.loki.ripoti.presentation.auth.login
 
 data class LoginState(
     val error: String = "",

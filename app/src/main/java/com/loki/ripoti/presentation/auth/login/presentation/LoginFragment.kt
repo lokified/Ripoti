@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.onboarding.login.presentation
+package com.loki.ripoti.presentation.auth.login.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.loki.ripoti.R
 import com.loki.ripoti.databinding.FragmentLoginBinding
 import com.loki.ripoti.domain.model.Login
-import com.loki.ripoti.ui.onboarding.login.LoginViewModel
-import com.loki.ripoti.ui.onboarding.registration.presentation.RegistrationFragmentDirections
+import com.loki.ripoti.presentation.auth.login.LoginViewModel
+import com.loki.ripoti.util.SharedPreferenceManager
 import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast
@@ -70,8 +70,9 @@ class LoginFragment : Fragment() {
             binding.progressBar.isVisible = state.isLoading
 
             if (state.message.isNotBlank()) {
-                showToast(state.message)
 
+                SharedPreferenceManager.saveAccessToken(context, state.message)
+                //Log.i("token", state.message)
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 findNavController().navigate(action)
             }

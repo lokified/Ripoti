@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.report_detail
+package com.loki.ripoti.presentation.report_detail
 
 import com.loki.ripoti.data.remote.response.Comments
 

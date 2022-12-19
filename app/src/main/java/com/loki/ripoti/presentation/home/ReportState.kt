@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.home
+package com.loki.ripoti.presentation.home
 
 import com.loki.ripoti.data.remote.response.Reports
 

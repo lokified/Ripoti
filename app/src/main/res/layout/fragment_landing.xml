@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    tools:context=".ui.onboarding.LandingFragment">
+    tools:context=".presentation.auth.LandingFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/welcome_animation"

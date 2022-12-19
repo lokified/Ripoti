@@ -1,23 +1,31 @@
-package com.loki.ripoti.ui.home.presentation
+package com.loki.ripoti.presentation.home.views
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.auth0.android.jwt.JWT
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
 import com.loki.ripoti.databinding.FragmentHomeBinding
-import com.loki.ripoti.ui.home.ReportsViewModel
+import com.loki.ripoti.presentation.home.ReportsViewModel
+import com.loki.ripoti.util.SharedPreferenceManager
 import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -39,9 +47,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lightStatusBar()
+
+        val token = SharedPreferenceManager.getToken(context)
+        val jwt = JWT(token)
+
+        val id = jwt.getClaim("id").asString()
+        val localUserName = jwt.getClaim("name").asString()
+        val email = jwt.getClaim("email").asString()
+
         binding.apply {
 
-            reportAdapter = ReportAdapter { reports ->
+            reportAdapter = ReportAdapter(localUserName!!) { reports ->
                 navigateToReportComments(reports)
             }
             reportRecycler.adapter = reportAdapter

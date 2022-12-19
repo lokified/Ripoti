@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.report_detail.components
+package com.loki.ripoti.presentation.report_detail.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

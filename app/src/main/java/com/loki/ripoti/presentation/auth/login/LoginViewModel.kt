@@ -1,8 +1,7 @@
-package com.loki.ripoti.ui.onboarding.login
+package com.loki.ripoti.presentation.auth.login
 
 import androidx.lifecycle.*
 import com.loki.ripoti.domain.model.Login
-import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
 import com.loki.ripoti.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

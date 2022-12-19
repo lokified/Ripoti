@@ -1,4 +1,4 @@
-package com.loki.ripoti.ui.home.presentation
+package com.loki.ripoti.presentation.home.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +8,7 @@ import com.loki.ripoti.data.remote.response.Reports
 import com.loki.ripoti.databinding.ReportItemLayoutBinding
 
 class ReportAdapter(
+    private val localUserName: String,
     private val onItemClick: (Reports) -> Unit = {}
 ): RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
 
@@ -45,8 +46,24 @@ class ReportAdapter(
                 reportTitleTxt.text = reports.username
                 reportDescriptionTxt.text = reports.description
                 reportTimeTxt.text = reports.created_at
-
+                userInitialsTxt.text = getInitials()
             }
+        }
+
+        private fun getInitials(): String {
+
+            val nameArr = localUserName.split(" ")
+
+            var firstName = ""
+            var secondName = ""
+            for (i in nameArr) {
+                firstName = nameArr[0]
+                secondName = nameArr[1]
+            }
+
+            val c1: Char = firstName[0]
+            val c2: Char = secondName[0]
+            return c1.toString() + c2.toString()
         }
     }
 }
