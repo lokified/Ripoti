@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
+import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.databinding.ReportItemLayoutBinding
 
 class ReportAdapter(
-    private val localUserName: String,
-    private val onItemClick: (Reports) -> Unit = {}
+    private val onItemClick: (UserReports) -> Unit = {}
 ): RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
 
-    private var reportList = mutableListOf<Reports>()
+    private var reportList = mutableListOf<UserReports>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
 
@@ -32,7 +32,7 @@ class ReportAdapter(
 
     override fun getItemCount() = reportList.size
 
-    fun setReportList(reports: List<Reports>) {
+    fun setReportList(reports: List<UserReports>) {
         this.reportList = reports.toMutableList()
         notifyDataSetChanged()
     }
@@ -41,29 +41,13 @@ class ReportAdapter(
          val binding: ReportItemLayoutBinding
         ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(reports: Reports) {
+        fun bind(reports: UserReports) {
             binding.apply {
-                reportTitleTxt.text = reports.username
-                reportDescriptionTxt.text = reports.description
-                reportTimeTxt.text = reports.created_at
-                userInitialsTxt.text = getInitials()
+                reportTitleTxt.text = reports.report.username
+                reportDescriptionTxt.text = reports.report.description
+                reportTimeTxt.text = reports.report.created_at
+                userInitialsTxt.text = reports.report.username[0].toString()
             }
-        }
-
-        private fun getInitials(): String {
-
-            val nameArr = localUserName.split(" ")
-
-            var firstName = ""
-            var secondName = ""
-            for (i in nameArr) {
-                firstName = nameArr[0]
-                secondName = nameArr[1]
-            }
-
-            val c1: Char = firstName[0]
-            val c2: Char = secondName[0]
-            return c1.toString() + c2.toString()
         }
     }
 }

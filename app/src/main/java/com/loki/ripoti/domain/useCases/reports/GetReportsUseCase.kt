@@ -1,6 +1,7 @@
 package com.loki.ripoti.domain.useCases.reports
 
 import com.loki.ripoti.data.remote.response.Reports
+import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.domain.repository.ReportsRepository
 import com.loki.ripoti.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -12,20 +13,20 @@ class GetReportsUseCase(
     private val repository: ReportsRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<List<Reports>>> = flow {
+    operator fun invoke(): Flow<Resource<List<UserReports>>> = flow {
 
         try {
-            emit(Resource.Loading<List<Reports>>())
+            emit(Resource.Loading<List<UserReports>>())
             val reports = repository.getReports()
-            emit(Resource.Success<List<Reports>>(data = reports))
+            emit(Resource.Success<List<UserReports>>(data = reports))
         } catch (e: HttpException) {
             emit(
-                Resource.Error<List<Reports>>(
+                Resource.Error<List<UserReports>>(
                     e.localizedMessage ?: "An unexpected error occurred"
                 )
             )
         } catch (e: IOException) {
-            emit(Resource.Error<List<Reports>>("check your internet connection"))
+            emit(Resource.Error<List<UserReports>>("check your internet connection"))
         }
     }
 }

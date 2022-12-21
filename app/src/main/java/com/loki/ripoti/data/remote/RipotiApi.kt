@@ -1,9 +1,6 @@
 package com.loki.ripoti.data.remote
 
-import com.loki.ripoti.data.remote.response.Comments
-import com.loki.ripoti.data.remote.response.LoginResponse
-import com.loki.ripoti.data.remote.response.Reports
-import com.loki.ripoti.data.remote.response.UserResponse
+import com.loki.ripoti.data.remote.response.*
 import com.loki.ripoti.domain.model.Comment
 import com.loki.ripoti.domain.model.Login
 import com.loki.ripoti.domain.model.Report
@@ -23,7 +20,7 @@ interface RipotiApi {
     ): LoginResponse
 
     @GET("getReports")
-    suspend fun getReports(): List<Reports>
+    suspend fun getReports(): List<UserReports>
 
     @POST("postReport/{userId}")
     suspend fun addReport(

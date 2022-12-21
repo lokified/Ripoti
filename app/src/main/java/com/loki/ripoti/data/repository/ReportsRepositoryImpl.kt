@@ -1,7 +1,7 @@
 package com.loki.ripoti.data.repository
 
 import com.loki.ripoti.data.remote.RipotiApi
-import com.loki.ripoti.data.remote.response.Reports
+import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.data.remote.response.UserResponse
 import com.loki.ripoti.domain.model.Report
 import com.loki.ripoti.domain.repository.ReportsRepository
@@ -15,7 +15,7 @@ class ReportsRepositoryImpl @Inject constructor(
         return api.addReport(userId, report)
     }
 
-    override suspend fun getReports(): List<Reports> {
+    override suspend fun getReports(): List<UserReports> {
         return api.getReports()
     }
 

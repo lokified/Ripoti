@@ -52,8 +52,8 @@
                 android:id="@+id/username_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="anonymous"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                tools:text="anonymous"/>
 
             <TextView
                 android:id="@+id/name_txt"
@@ -61,8 +61,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="/@loki"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                tools:text="'@'loki"/>
 
             <ImageView
                 android:id="@+id/more_vert"

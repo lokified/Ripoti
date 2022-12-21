@@ -1,8 +1,12 @@
 package com.loki.ripoti.util.extensions
 
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 
 fun Fragment.setStatusBarColor(color: Int) {
 
@@ -29,4 +33,20 @@ fun Fragment.lightStatusBar() {
 fun Fragment.showToast(content: String) {
 
     Toast.makeText(context, content, Toast.LENGTH_SHORT).show()
+}
+
+fun Fragment.showSnackBar(content: String, view: View) {
+    Snackbar.make(
+        view,
+        content,
+        Snackbar.LENGTH_LONG
+    ).show()
+}
+
+fun Fragment.navigateBack() {
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            findNavController().popBackStack()
+        }
+    })
 }

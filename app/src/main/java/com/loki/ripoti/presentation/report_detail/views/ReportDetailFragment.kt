@@ -10,8 +10,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.auth0.android.jwt.JWT
 import com.loki.ripoti.databinding.FragmentReportDetailBinding
 import com.loki.ripoti.presentation.report_detail.CommentViewModel
+import com.loki.ripoti.util.GetUserInitials
+import com.loki.ripoti.util.SharedPreferenceManager
+import com.loki.ripoti.util.extensions.navigateBack
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +26,6 @@ class ReportDetailFragment : Fragment() {
     private val commentViewModel: CommentViewModel by viewModels()
     private val args: ReportDetailFragmentArgs by navArgs()
     private lateinit var commentsAdapter: CommentsAdapter
-    var commentNumber = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,26 +40,25 @@ class ReportDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.apply {
-            progressBar.isVisible = false
-            descriptionTxt.text = args.report.description
-            reportTimeTxt.text = args.report.created_at
-            usernameTxt.text = args.report.username
 
-            commentsNumberTxt.text = "$commentNumber comments"
+            progressBar.isVisible = false
+            descriptionTxt.text = args.report.report.description
+            reportTimeTxt.text = args.report.report.created_at
+            usernameTxt.text = args.report.report.username
+
+            nameTxt.text = "@${args.report.name}"
+            userInitialsTxt.text = args.report.report.username[0].toString()
+            localUserInitialsTxt.text = GetUserInitials.initials(requireContext())
 
             commentsAdapter = CommentsAdapter(
-                args.report.username,
-            "@sheldon"
+                args.report.report.username,
+                 args.report.name
             )
             commentsRecycler.adapter = commentsAdapter
-            commentViewModel.getComments(args.report.id)
+            commentViewModel.getComments(args.report.report.id)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().popBackStack()
-            }
-        })
+        navigateBack()
     }
 
     private fun setUpObservers() {
@@ -66,7 +68,9 @@ class ReportDetailFragment : Fragment() {
             binding.progressBar.isVisible = result.isLoading
 
             if (result.comment.isNotEmpty()) {
-                commentNumber = result.comment.size.toString()
+                val commentNumber = result.comment.size
+
+                binding.commentsNumberTxt.text = "$commentNumber comments"
                 commentsAdapter.setComment(result.comment)
             }
             if (result.error.isNotBlank()) {

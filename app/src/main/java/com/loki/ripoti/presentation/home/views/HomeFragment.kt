@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
+import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.databinding.FragmentHomeBinding
 import com.loki.ripoti.presentation.home.ReportsViewModel
+import com.loki.ripoti.util.GetUserInitials
 import com.loki.ripoti.util.SharedPreferenceManager
 import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
@@ -48,16 +50,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lightStatusBar()
 
-        val token = SharedPreferenceManager.getToken(context)
-        val jwt = JWT(token)
-
-        val id = jwt.getClaim("id").asString()
-        val localUserName = jwt.getClaim("name").asString()
-        val email = jwt.getClaim("email").asString()
-
         binding.apply {
 
-            reportAdapter = ReportAdapter(localUserName!!) { reports ->
+            reportAdapter = ReportAdapter() { reports ->
                 navigateToReportComments(reports)
             }
             reportRecycler.adapter = reportAdapter
@@ -67,8 +62,22 @@ class HomeFragment : Fragment() {
                     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false).orientation
                 )
             )
+
+            cardUserBg.setOnClickListener {
+                SharedPreferenceManager.saveAccessToken(context, "")
+                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            }
+
+            addReportFab.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_addReportFragment)
+            }
+
+            userInitialsTxt.text = GetUserInitials.initials(requireContext())
         }
+
     }
+
+
 
     private fun setUpObservers() {
 
@@ -79,13 +88,16 @@ class HomeFragment : Fragment() {
             if (result.reports.isNotEmpty()) {
                 reportAdapter.setReportList(result.reports)
             }
+            else {
+                binding.noReportTxt.text = "No reports Available"
+            }
             if (result.error.isNotBlank()) {
                 showToast(result.error)
             }
         }
     }
 
-    private fun navigateToReportComments(reports: Reports) {
+    private fun navigateToReportComments(reports: UserReports) {
 
         val action = HomeFragmentDirections.actionHomeFragmentToReportDetailFragment(
             report = reports

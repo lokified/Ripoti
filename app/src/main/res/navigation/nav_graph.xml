@@ -13,13 +13,11 @@
         <action
             android:id="@+id/action_landingFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/landingFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/landingFragment" />
         <action
             android:id="@+id/action_landingFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/landingFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/landingFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -50,6 +48,14 @@
         <action
             android:id="@+id/action_homeFragment_to_reportDetailFragment"
             app:destination="@id/reportDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_addReportFragment"
+            app:destination="@id/addReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportDetailFragment"
@@ -58,6 +64,11 @@
         tools:layout="@layout/fragment_report_detail" >
         <argument
             android:name="report"
-            app:argType="com.loki.ripoti.data.remote.response.Reports" />
+            app:argType="com.loki.ripoti.data.remote.response.UserReports" />
     </fragment>
+    <fragment
+        android:id="@+id/addReportFragment"
+        android:name="com.loki.ripoti.presentation.add_report.AddReportFragment"
+        android:label="fragment_add_report"
+        tools:layout="@layout/fragment_add_report" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.loki.ripoti.presentation.home
+package com.loki.ripoti.presentation.add_report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,44 +8,41 @@ import com.loki.ripoti.domain.model.Report
 import com.loki.ripoti.domain.useCases.reports.ReportsUseCase
 import com.loki.ripoti.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class  ReportsViewModel @Inject constructor(
+class AddReportViewModel @Inject constructor(
     private val reportsUseCase: ReportsUseCase
 ): ViewModel() {
 
-    private val _state = MutableLiveData(ReportState())
-    val state: LiveData<ReportState> = _state
+    private val _state = MutableLiveData(AddReportState())
+    val state: LiveData<AddReportState> = _state
 
-    init {
-        getReports()
-    }
+    fun addReport(userId: Int, report: Report) {
 
-    private fun getReports() {
+        reportsUseCase.addReport(userId, report).onEach { result ->
 
-        reportsUseCase.getReports().onEach { result ->
             when(result) {
+
                 is Resource.Loading -> {
-                    _state.value = ReportState(
+                    _state.value = AddReportState(
                         isLoading = true
                     )
                 }
+
                 is Resource.Success -> {
-                    _state.value = ReportState(
-                        reports = result.data!!
+                    _state.value = AddReportState(
+                        message = result.data?.message!!
                     )
                 }
+
                 is Resource.Error -> {
-                    _state.value = ReportState(
-                        error = result.message!!
+                    _state.value = AddReportState(
+                        error = result.message ?: "Something went wrong!"
                     )
                 }
             }
