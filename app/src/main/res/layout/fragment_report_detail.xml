@@ -190,8 +190,9 @@
                 android:layout_gravity="center_vertical"/>
 
             <Button
+                android:id="@+id/add_comment_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="38dp"
                 android:text="Comment"
                 android:background="@drawable/commentbg"
                 android:textAllCaps="false"
@@ -208,13 +209,23 @@
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/no_comment_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            tools:text="No comments."/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comments_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/comment_item_layout"/>
 

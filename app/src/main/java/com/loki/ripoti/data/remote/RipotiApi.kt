@@ -41,6 +41,7 @@ interface RipotiApi {
 
     @POST("addComment/{userId}")
     suspend fun addComment(
+        @Path("userId") userId: Int,
         @Body comment: Comment
     ): UserResponse
 

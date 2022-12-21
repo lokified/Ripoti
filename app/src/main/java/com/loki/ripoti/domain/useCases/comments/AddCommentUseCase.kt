@@ -15,11 +15,11 @@ class AddCommentUseCase(
     private val repository: CommentsRepository
 ) {
 
-    operator fun invoke(comment: Comment): Flow<Resource<UserResponse>> = flow {
+    operator fun invoke(userId: Int, comment: Comment): Flow<Resource<UserResponse>> = flow {
 
         try {
             emit(Resource.Loading<UserResponse>(data = null))
-            emit(Resource.Success<UserResponse>(data = repository.addComment(comment)))
+            emit(Resource.Success<UserResponse>(data = repository.addComment(userId, comment)))
         }
         catch (e: HttpException) {
             emit(Resource.Error<UserResponse>(e.localizedMessage ?: "An unexpected error occurred", data = null))

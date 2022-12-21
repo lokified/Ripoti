@@ -7,6 +7,6 @@ import com.loki.ripoti.domain.model.Comment
 
 interface CommentsRepository {
 
-    suspend fun addComment(comment: Comment): UserResponse
+    suspend fun addComment(userId: Int, comment: Comment): UserResponse
     suspend fun getCommentsInReport(reportId: Int): List<Comments>
 }

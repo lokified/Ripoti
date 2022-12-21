@@ -8,6 +8,8 @@ import com.loki.ripoti.domain.model.Comment
 import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
 import com.loki.ripoti.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -20,25 +22,23 @@ class CommentViewModel @Inject constructor(
     private val _state = MutableLiveData(CommentState())
     val state: LiveData<CommentState> = _state
 
+    private val _addCommentEvent = MutableSharedFlow<AddCommentEvent>()
+    val addCommentEvent = _addCommentEvent.asSharedFlow()
 
-    fun addComment(comment: Comment) {
+    fun addComment(userId: Int, comment: Comment) {
 
-        commentsUseCase.addComment(comment).onEach { result ->
+        commentsUseCase.addComment(userId, comment).onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _state.value = CommentState(
-                        isLoading = true
-                    )
+                    _addCommentEvent.emit(AddCommentEvent.IsLoading)
                 }
                 is Resource.Success -> {
-                    _state.value = CommentState(
-                        message = result.data?.message!!
-                    )
+                    if (result.data?.message == "comment added"){
+                        _addCommentEvent.emit(AddCommentEvent.Success)
+                    }
                 }
                 is Resource.Error -> {
-                    _state.value = CommentState(
-                        error = result.message!!
-                    )
+                    _addCommentEvent.emit(AddCommentEvent.ErrorAddComment(result.message ?: "something went wrong"))
                 }
             }
         }.launchIn(viewModelScope)
@@ -65,5 +65,11 @@ class CommentViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    sealed class AddCommentEvent {
+        object IsLoading: AddCommentEvent()
+        data class ErrorAddComment(val error: String): AddCommentEvent()
+        object Success: AddCommentEvent()
     }
 }

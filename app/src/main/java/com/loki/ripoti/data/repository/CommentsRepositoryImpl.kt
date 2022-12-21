@@ -12,8 +12,8 @@ class CommentsRepositoryImpl @Inject constructor(
     private val api: RipotiApi
 ): CommentsRepository {
 
-    override suspend fun addComment(comment: Comment): UserResponse {
-        return api.addComment(comment)
+    override suspend fun addComment(userId: Int, comment: Comment): UserResponse {
+        return api.addComment(userId, comment)
     }
 
     override suspend fun getCommentsInReport(reportId: Int): List<Comments> {
