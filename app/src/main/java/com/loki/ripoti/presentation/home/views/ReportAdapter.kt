@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
-import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.databinding.ReportItemLayoutBinding
+import com.loki.ripoti.util.GetUserInitials
 
 class ReportAdapter(
-    private val onItemClick: (UserReports) -> Unit = {}
+    private val onItemClick: (Reports) -> Unit = {}
 ): RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
 
-    private var reportList = mutableListOf<UserReports>()
+    private var reportList = mutableListOf<Reports>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
 
@@ -32,7 +32,7 @@ class ReportAdapter(
 
     override fun getItemCount() = reportList.size
 
-    fun setReportList(reports: List<UserReports>) {
+    fun setReportList(reports: List<Reports>) {
         this.reportList = reports.toMutableList()
         notifyDataSetChanged()
     }
@@ -41,12 +41,13 @@ class ReportAdapter(
          val binding: ReportItemLayoutBinding
         ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(reports: UserReports) {
+        fun bind(reports: Reports) {
             binding.apply {
-                reportTitleTxt.text = reports.report.username
-                reportDescriptionTxt.text = reports.report.description
-                reportTimeTxt.text = reports.report.created_at
-                userInitialsTxt.text = reports.report.username[0].toString()
+                reportTitleTxt.text = reports.username
+                reportDescriptionTxt.text = reports.description
+                reportTimeTxt.text = reports.created_at
+                userInitialsTxt.text = GetUserInitials.initials(username = reports.name)
+                reportDateTxt.text = reports.created_on
             }
         }
     }

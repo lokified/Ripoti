@@ -20,7 +20,7 @@ interface RipotiApi {
     ): LoginResponse
 
     @GET("getReports")
-    suspend fun getReports(): List<UserReports>
+    suspend fun getReports(): List<Reports>
 
     @POST("postReport/{userId}")
     suspend fun addReport(

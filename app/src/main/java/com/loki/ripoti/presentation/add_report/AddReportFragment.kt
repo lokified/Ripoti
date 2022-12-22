@@ -16,6 +16,7 @@ import com.loki.ripoti.databinding.FragmentAddReportBinding
 import com.loki.ripoti.domain.model.Report
 import com.loki.ripoti.util.GetUserInitials
 import com.loki.ripoti.util.SharedPreferenceManager
+import com.loki.ripoti.util.extensions.hideKeyboard
 import com.loki.ripoti.util.extensions.navigateBack
 import com.loki.ripoti.util.extensions.showSnackBar
 import com.loki.ripoti.util.extensions.showToast
@@ -47,7 +48,7 @@ class AddReportFragment : Fragment() {
 
         binding.apply {
 
-            localUserInitialsTxt.text = GetUserInitials.initials(requireContext())
+            localUserInitialsTxt.text = GetUserInitials.initials(context = requireContext())
 
 
             addReportBtn.setOnClickListener {
@@ -58,6 +59,7 @@ class AddReportFragment : Fragment() {
                 )
                 addReportViewModel.addReport(id.toInt(), report)
 
+                root.hideKeyboard()
             }
         }
 
@@ -73,8 +75,11 @@ class AddReportFragment : Fragment() {
             binding.progressBar.isVisible = result.isLoading
 
             if (result.message.isNotEmpty()) {
-                showSnackBar(result.message, binding.root)
-                findNavController().popBackStack()
+
+                if (result.message == "report added") {
+                    binding.root.showSnackBar(result.message)
+                    findNavController().popBackStack()
+                }
             }
 
             if (result.error.isNotEmpty()) {

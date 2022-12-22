@@ -56,7 +56,7 @@
                 android:textColor="@color/black"
                 android:layout_margin="8dp"
                 android:textStyle="bold"
-                android:textSize="25sp"/>
+                android:textSize="18sp"/>
         </LinearLayout>
 
 
@@ -66,6 +66,7 @@
         android:id="@+id/report_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/report_item_layout"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -103,5 +104,17 @@
         android:visibility="gone"
         tools:visibility="visible"
         tools:text="No report available"/>
+
+    <Button
+        android:id="@+id/retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

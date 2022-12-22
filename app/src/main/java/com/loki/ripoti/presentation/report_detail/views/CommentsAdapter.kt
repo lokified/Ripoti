@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loki.ripoti.data.remote.response.Comments
 import com.loki.ripoti.databinding.CommentItemLayoutBinding
+import com.loki.ripoti.util.GetUserInitials
 
 class CommentsAdapter(
-    private val userName: String,
-    private val name: String
 ): RecyclerView.Adapter<CommentsAdapter.CommentHolder>() {
 
     private var commentList = mutableListOf<Comments>()
@@ -38,9 +37,10 @@ class CommentsAdapter(
         fun bind(comments: Comments) {
 
             binding.apply {
-                usernameTxt.text = userName
-                nameTxt.text = name
+                usernameTxt.text = comments.username
+                nameTxt.text = "@${comments.name}"
                 commentTxt.text = comments.comment
+                userInitialsTxt.text = GetUserInitials.initials(username = comments.name)
             }
         }
     }

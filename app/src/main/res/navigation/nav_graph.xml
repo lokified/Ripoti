@@ -64,7 +64,7 @@
         tools:layout="@layout/fragment_report_detail" >
         <argument
             android:name="report"
-            app:argType="com.loki.ripoti.data.remote.response.UserReports" />
+            app:argType="com.loki.ripoti.data.remote.response.Reports" />
     </fragment>
     <fragment
         android:id="@+id/addReportFragment"

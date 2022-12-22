@@ -5,13 +5,10 @@ import com.auth0.android.jwt.JWT
 
 object GetUserInitials {
 
-     fun initials(context: Context): String {
-         val token = SharedPreferenceManager.getToken(context)
-         val jwt = JWT(token)
+     fun initials(context: Context? = null, username: String? = null): String {
 
-         val localUserName = jwt.getClaim("name").asString()!!
-
-        val nameArr = localUserName.split(" ")
+        val nameArr =
+            if (context == null) getUserName(username) else getUserNameContext(context)
 
         var firstName = ""
         var secondName = ""
@@ -24,4 +21,18 @@ object GetUserInitials {
         val c2: Char = secondName[0]
         return c1.toString() + c2.toString()
     }
+
+    private fun getUserName (username: String?): List<String> {
+        return username?.split(" ") ?: emptyList()
+    }
+
+    private fun getUserNameContext(context: Context?): List<String> {
+        val token = SharedPreferenceManager.getToken(context)
+        val jwt = JWT(token)
+
+        val localUserName = jwt.getClaim("name").asString()!!
+
+        return localUserName.split(" ")
+    }
+
 }

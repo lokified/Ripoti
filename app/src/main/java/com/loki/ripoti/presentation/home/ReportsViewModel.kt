@@ -29,7 +29,7 @@ class  ReportsViewModel @Inject constructor(
         getReports()
     }
 
-    private fun getReports() {
+    fun getReports() {
 
         reportsUseCase.getReports().onEach { result ->
             when(result) {

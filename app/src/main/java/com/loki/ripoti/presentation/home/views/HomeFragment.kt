@@ -1,23 +1,17 @@
 package com.loki.ripoti.presentation.home.views
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.auth0.android.jwt.JWT
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
-import com.loki.ripoti.data.remote.response.UserReports
 import com.loki.ripoti.databinding.FragmentHomeBinding
 import com.loki.ripoti.presentation.home.ReportsViewModel
 import com.loki.ripoti.util.GetUserInitials
@@ -26,7 +20,6 @@ import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 
 @AndroidEntryPoint
@@ -84,6 +77,7 @@ class HomeFragment : Fragment() {
         reportsViewModel.state.observe(viewLifecycleOwner) { result ->
 
             binding.progressBar.isVisible = result.isLoading
+            binding.retryBtn.isVisible = false
 
             if (result.reports.isNotEmpty()) {
                 reportAdapter.setReportList(result.reports)
@@ -93,11 +87,19 @@ class HomeFragment : Fragment() {
             }
             if (result.error.isNotBlank()) {
                 showToast(result.error)
+
+                if (result.error == "check your internet connection") {
+                    binding.retryBtn.isVisible = true
+
+                    binding.retryBtn.setOnClickListener {
+                        reportsViewModel.getReports()
+                    }
+                }
             }
         }
     }
 
-    private fun navigateToReportComments(reports: UserReports) {
+    private fun navigateToReportComments(reports: Reports) {
 
         val action = HomeFragmentDirections.actionHomeFragmentToReportDetailFragment(
             report = reports
