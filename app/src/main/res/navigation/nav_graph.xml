@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.loki.ripoti.presentation.auth.login.presentation.LoginFragment"
+        android:name="com.loki.ripoti.presentation.auth.login.views.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action

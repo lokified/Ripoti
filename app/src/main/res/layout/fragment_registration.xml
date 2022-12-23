@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:padding="4dp"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,6 +54,7 @@
         app:placeholderText="eg. John"
         app:expandedHintEnabled="false"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
         app:hintTextColor="@color/hintColor"
         app:boxStrokeColor="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +82,7 @@
         app:placeholderText="eg. Doe"
         app:expandedHintEnabled="false"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
         app:hintTextColor="@color/hintColor"
         app:boxStrokeColor="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +111,7 @@
         app:expandedHintEnabled="false"
         android:hint="Email"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
         app:hintTextColor="@color/hintColor"
         app:boxStrokeColor="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,6 +140,7 @@
         app:passwordToggleEnabled="true"
         app:expandedHintEnabled="false"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
         app:hintTextColor="@color/hintColor"
         app:boxStrokeColor="@color/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,6 +155,34 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/l_con_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColorHint="@color/hintColor"
+        android:hint="Confirm Password"
+        app:placeholderText=""
+        app:passwordToggleEnabled="true"
+        app:expandedHintEnabled="false"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
+        app:hintTextColor="@color/hintColor"
+        app:boxStrokeColor="@color/colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/l_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_con_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:textColor="#525252" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_btn"
@@ -164,7 +197,7 @@
         app:backgroundTint="@null"
         android:backgroundTint="@null"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@+id/l_password"
+        app:layout_constraintTop_toBottomOf="@+id/l_con_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

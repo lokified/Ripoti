@@ -1,12 +1,18 @@
 package com.loki.ripoti.di
 
+import android.app.Application
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.loki.ripoti.data.local.UserDatabase
 import com.loki.ripoti.data.remote.RipotiApi
 import com.loki.ripoti.data.repository.CommentsRepositoryImpl
 import com.loki.ripoti.data.repository.OnboardingRepositoryImpl
 import com.loki.ripoti.data.repository.ReportsRepositoryImpl
+import com.loki.ripoti.data.repository.UserRepositoryImpl
 import com.loki.ripoti.domain.repository.CommentsRepository
 import com.loki.ripoti.domain.repository.OnBoardingRepository
 import com.loki.ripoti.domain.repository.ReportsRepository
+import com.loki.ripoti.domain.repository.UserRepository
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
 import com.loki.ripoti.domain.useCases.auth.login.LoginUserUseCase
 import com.loki.ripoti.domain.useCases.auth.registration.RegisterUserUseCase
@@ -25,7 +31,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object RipotiApiModule {
 
     @Provides
     @Singleton

@@ -53,12 +53,13 @@ class AddReportFragment : Fragment() {
 
             addReportBtn.setOnClickListener {
 
-                val description = etAddReport.text.toString()
-                val report = Report(
-                    username, description
-                )
-                addReportViewModel.addReport(id.toInt(), report)
-
+                if (etAddReport.text.isNotEmpty()) {
+                    val description = etAddReport.text.toString()
+                    val report = Report(
+                        username, description
+                    )
+                    addReportViewModel.addReport(id.toInt(), report)
+                }
                 root.hideKeyboard()
             }
         }
