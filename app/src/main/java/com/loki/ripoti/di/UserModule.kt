@@ -2,10 +2,14 @@ package com.loki.ripoti.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.loki.ripoti.data.local.UserDatabase
+import com.loki.ripoti.data.remote.RipotiApi
 import com.loki.ripoti.data.repository.UserRepositoryImpl
+import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.repository.UserRepository
+import com.loki.ripoti.domain.useCases.user.UpdateUserPasswordUseCase
+import com.loki.ripoti.domain.useCases.user.UpdateUserUseCase
+import com.loki.ripoti.domain.useCases.user.UserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +33,17 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(database: UserDatabase): UserRepository {
-        return UserRepositoryImpl(database.userDao)
+    fun provideUserRepository(database: UserDatabase, ripotiApi: RipotiApi): UserRepository {
+        return UserRepositoryImpl(database.userDao, ripotiApi )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideUserUseCase(repository: UserRepository): UserUseCase {
+        return UserUseCase(
+            updateUser = UpdateUserUseCase(repository),
+            updateUserPassword = UpdateUserPasswordUseCase(repository)
+        )
     }
 }

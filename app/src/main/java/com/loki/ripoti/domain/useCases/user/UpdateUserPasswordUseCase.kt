@@ -1,23 +1,22 @@
-package com.loki.ripoti.domain.useCases.auth.registration
+package com.loki.ripoti.domain.useCases.user
 
 import com.loki.ripoti.data.remote.response.UserResponse
+import com.loki.ripoti.domain.model.Password
 import com.loki.ripoti.domain.model.User
-import com.loki.ripoti.domain.repository.AuthRepository
+import com.loki.ripoti.domain.repository.UserRepository
 import com.loki.ripoti.util.Resource
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class RegisterUserUseCase (
-    private val repository: AuthRepository
+class UpdateUserPasswordUseCase(
+    private val repository: UserRepository
 ) {
 
-    operator fun invoke(user: User): Flow<Resource<UserResponse>> = flow{
-
+     operator fun invoke(userId: Int, email: String, password: Password) = flow<Resource<UserResponse>> {
         try {
             emit(Resource.Loading<UserResponse>(data = null))
-            emit(Resource.Success<UserResponse>(data = repository.registerUser(user)))
+            emit(Resource.Success<UserResponse>(data = repository.updatePassword(userId, email, password)))
         }
         catch (e: HttpException) {
             emit(Resource.Error<UserResponse>(e.localizedMessage ?: "An unexpected error occurred", data = null))

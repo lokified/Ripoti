@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.account.views.ChangeUserDialog">
+
+
+    <TextView
+        android:id="@+id/change_pin_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHANGE YOUR DETAILS"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/l_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColorHint="@color/hintColor"
+        app:expandedHintEnabled="false"
+        android:hint="Username"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
+        app:hintTextColor="@color/hintColor"
+        app:boxStrokeColor="@color/colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_pin_txt">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:textColor="#525252" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/l_names"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColorHint="@color/hintColor"
+        android:hint="Name"
+        app:expandedHintEnabled="false"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/errorColor"
+        app:hintTextColor="@color/hintColor"
+        app:boxStrokeColor="@color/colorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/l_username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:textColor="#525252" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/l_names">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/update_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/sheet_button"
+            android:text="Change"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="16dp"
+            app:backgroundTint="@null"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@+id/l_new_con_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@null"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/progress_bg"
+            android:progress="0"
+            app:backgroundTint="@null"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

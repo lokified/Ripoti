@@ -5,7 +5,7 @@ import com.loki.ripoti.data.remote.response.UserResponse
 import com.loki.ripoti.domain.model.Login
 import com.loki.ripoti.domain.model.User
 
-interface OnBoardingRepository {
+interface AuthRepository {
 
     suspend fun registerUser(user: User): UserResponse
     suspend fun loginUser(login: Login): LoginResponse

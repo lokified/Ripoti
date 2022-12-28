@@ -6,8 +6,8 @@ import com.loki.ripoti.domain.model.User
 
 @Database(
     entities = [User::class],
-    version = 1,
-    exportSchema = false
+    exportSchema = false,
+    version = 2,
 )
 abstract class UserDatabase: RoomDatabase() {
 

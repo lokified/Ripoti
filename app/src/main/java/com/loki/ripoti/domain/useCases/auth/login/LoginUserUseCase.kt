@@ -2,7 +2,7 @@ package com.loki.ripoti.domain.useCases.auth.login
 
 import com.loki.ripoti.data.remote.response.LoginResponse
 import com.loki.ripoti.domain.model.Login
-import com.loki.ripoti.domain.repository.OnBoardingRepository
+import com.loki.ripoti.domain.repository.AuthRepository
 import com.loki.ripoti.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class LoginUserUseCase (
-    private val repository: OnBoardingRepository
+    private val repository: AuthRepository
 ) {
 
     operator fun invoke(login: Login): Flow<Resource<LoginResponse>> = flow{

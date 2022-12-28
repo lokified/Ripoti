@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
 
         binding.apply {
 
-            reportAdapter = ReportAdapter() { reports ->
+            reportAdapter = ReportAdapter { reports ->
                 navigateToReportComments(reports)
             }
             reportRecycler.adapter = reportAdapter
@@ -57,8 +57,8 @@ class HomeFragment : Fragment() {
             )
 
             cardUserBg.setOnClickListener {
-                SharedPreferenceManager.saveAccessToken(context, "")
-                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+                val logoutDialog = LogoutDialog()
+                logoutDialog.show(parentFragmentManager, LogoutDialog.TAG)
             }
 
             addReportFab.setOnClickListener {

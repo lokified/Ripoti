@@ -1,16 +1,11 @@
 package com.loki.ripoti.di
 
-import android.app.Application
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.loki.ripoti.data.local.UserDatabase
 import com.loki.ripoti.data.remote.RipotiApi
 import com.loki.ripoti.data.repository.CommentsRepositoryImpl
-import com.loki.ripoti.data.repository.OnboardingRepositoryImpl
+import com.loki.ripoti.data.repository.AuthRepositoryImpl
 import com.loki.ripoti.data.repository.ReportsRepositoryImpl
-import com.loki.ripoti.data.repository.UserRepositoryImpl
 import com.loki.ripoti.domain.repository.CommentsRepository
-import com.loki.ripoti.domain.repository.OnBoardingRepository
+import com.loki.ripoti.domain.repository.AuthRepository
 import com.loki.ripoti.domain.repository.ReportsRepository
 import com.loki.ripoti.domain.repository.UserRepository
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
@@ -20,6 +15,9 @@ import com.loki.ripoti.domain.useCases.comments.AddCommentUseCase
 import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
 import com.loki.ripoti.domain.useCases.comments.GetCommentsUseCase
 import com.loki.ripoti.domain.useCases.reports.*
+import com.loki.ripoti.domain.useCases.user.UpdateUserPasswordUseCase
+import com.loki.ripoti.domain.useCases.user.UpdateUserUseCase
+import com.loki.ripoti.domain.useCases.user.UserUseCase
 import com.loki.ripoti.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -46,8 +44,8 @@ object RipotiApiModule {
 
     @Provides
     @Singleton
-    fun provideOnBoardingRepository(api: RipotiApi): OnBoardingRepository {
-        return OnboardingRepositoryImpl(api)
+    fun provideOnBoardingRepository(api: RipotiApi): AuthRepository {
+        return AuthRepositoryImpl(api)
     }
 
     @Provides
@@ -64,7 +62,7 @@ object RipotiApiModule {
 
     @Provides
     @Singleton
-    fun provideAuthUseCase(repository: OnBoardingRepository): AuthUseCase {
+    fun provideAuthUseCase(repository: AuthRepository): AuthUseCase {
 
         return AuthUseCase(
             loginUser = LoginUserUseCase(repository),

@@ -71,4 +71,9 @@
         android:name="com.loki.ripoti.presentation.add_report.AddReportFragment"
         android:label="fragment_add_report"
         tools:layout="@layout/fragment_add_report" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.loki.ripoti.presentation.account.views.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
 </navigation>

@@ -1,10 +1,7 @@
 package com.loki.ripoti.data.remote
 
 import com.loki.ripoti.data.remote.response.*
-import com.loki.ripoti.domain.model.Comment
-import com.loki.ripoti.domain.model.Login
-import com.loki.ripoti.domain.model.Report
-import com.loki.ripoti.domain.model.User
+import com.loki.ripoti.domain.model.*
 import retrofit2.http.*
 
 interface RipotiApi {
@@ -49,4 +46,16 @@ interface RipotiApi {
     suspend fun getCommentsInReport(
         @Path("reportId") reportId: Int
     ): List<Comments>
+
+    @PUT("updatePassword/{userId}")
+    suspend fun updatePassword(
+        @Path("userId") userId: Int,
+        @Body password: Password
+    ): UserResponse
+
+    @PATCH("updateUserDetails/{userId}")
+    suspend fun updateUser(
+        @Path("userId") userId: Int,
+        @Body user: UserUpdate
+    ): UserResponse
 }
