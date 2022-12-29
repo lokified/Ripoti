@@ -47,6 +47,11 @@ interface RipotiApi {
         @Path("reportId") reportId: Int
     ): List<Comments>
 
+    @POST("getUserProfile")
+    suspend fun getUserProfile(
+        @Body profile: Profile
+    ): UserProfile
+
     @PUT("updatePassword/{userId}")
     suspend fun updatePassword(
         @Path("userId") userId: Int,

@@ -28,6 +28,7 @@ class ChangeUserDialog(
 
     private lateinit var binding: FragmentChangeUserDialogBinding
     private val userUpdateViewModel: UserUpdateViewModel by viewModels()
+    private lateinit var userDialogListener: UserDialogListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,6 +78,7 @@ class ChangeUserDialog(
                         binding.updateBtn.text = "Update"
                         showToast(event.message)
                         dismiss()
+                        userDialogListener.onDismiss()
                     }
 
                     is UserUpdateViewModel.UpdateEvent.UpdateLoading -> {
@@ -92,5 +94,13 @@ class ChangeUserDialog(
                 }
             }
         }
+    }
+
+    fun setListener(dialogListener: UserDialogListener) {
+        this.userDialogListener = dialogListener
+    }
+
+    interface UserDialogListener {
+        fun onDismiss()
     }
 }

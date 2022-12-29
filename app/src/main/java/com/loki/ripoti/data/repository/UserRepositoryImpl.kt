@@ -2,8 +2,10 @@ package com.loki.ripoti.data.repository
 
 import com.loki.ripoti.data.local.UserDao
 import com.loki.ripoti.data.remote.RipotiApi
+import com.loki.ripoti.data.remote.response.UserProfile
 import com.loki.ripoti.data.remote.response.UserResponse
 import com.loki.ripoti.domain.model.Password
+import com.loki.ripoti.domain.model.Profile
 import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.model.UserUpdate
 import com.loki.ripoti.domain.repository.UserRepository
@@ -24,6 +26,10 @@ class UserRepositoryImpl @Inject constructor (
 
     override suspend fun getAllUsers(): List<User> {
         return dao.getAllUsers()
+    }
+
+    override suspend fun getUserProfile(profile: Profile): UserProfile {
+        return api.getUserProfile(profile)
     }
 
     override suspend fun updateUser(userId: Int, email: String, user: UserUpdate): UserResponse {

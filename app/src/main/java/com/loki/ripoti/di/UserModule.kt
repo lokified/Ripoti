@@ -5,8 +5,8 @@ import androidx.room.Room
 import com.loki.ripoti.data.local.UserDatabase
 import com.loki.ripoti.data.remote.RipotiApi
 import com.loki.ripoti.data.repository.UserRepositoryImpl
-import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.repository.UserRepository
+import com.loki.ripoti.domain.useCases.user.GetUserProfileUseCase
 import com.loki.ripoti.domain.useCases.user.UpdateUserPasswordUseCase
 import com.loki.ripoti.domain.useCases.user.UpdateUserUseCase
 import com.loki.ripoti.domain.useCases.user.UserUseCase
@@ -42,6 +42,7 @@ object UserModule {
     @Singleton
     fun provideUserUseCase(repository: UserRepository): UserUseCase {
         return UserUseCase(
+            getUserProfile = GetUserProfileUseCase(repository),
             updateUser = UpdateUserUseCase(repository),
             updateUserPassword = UpdateUserPasswordUseCase(repository)
         )

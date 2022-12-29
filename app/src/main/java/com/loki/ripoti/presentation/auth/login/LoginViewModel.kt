@@ -2,6 +2,7 @@ package com.loki.ripoti.presentation.auth.login
 
 import androidx.lifecycle.*
 import com.loki.ripoti.domain.model.Login
+import com.loki.ripoti.domain.model.Profile
 import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.repository.UserRepository
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authUseCase: AuthUseCase
+    private val authUseCase: AuthUseCase,
+    private val userRepository: UserRepository,
 ): ViewModel() {
 
     private val _loginEvent = MutableSharedFlow<LoginEvent>()
@@ -27,6 +29,15 @@ class LoginViewModel @Inject constructor(
                     _loginEvent.emit(LoginEvent.LoginLoading)
                 }
                 is Resource.Success -> {
+                    val profile = Profile(login.email)
+                    val userProfile = userRepository.getUserProfile(profile)
+                    val user = User(
+                        id = 0,
+                        name = userProfile.name,
+                        email = userProfile.email,
+                        password = login.password
+                    )
+                    userRepository.insertUser(user)
                     _loginEvent.emit(LoginEvent.Success(result.data?.token!!))
                 }
                 is Resource.Error -> {

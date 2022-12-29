@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.auth0.android.jwt.JWT
 import com.loki.ripoti.R
 import com.loki.ripoti.databinding.FragmentAccountBinding
+import com.loki.ripoti.domain.model.Profile
+import com.loki.ripoti.presentation.account.UserProfileViewModel
 import com.loki.ripoti.util.GetUserInitials
 import com.loki.ripoti.util.SharedPreferenceManager
 import com.loki.ripoti.util.extensions.navigateSafely
@@ -20,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AccountFragment : Fragment() {
 
     private lateinit var binding: FragmentAccountBinding
+    private val userProfileViewModel : UserProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,32 +42,71 @@ class AccountFragment : Fragment() {
 
     private fun setUpAccount() {
 
+        val token = SharedPreferenceManager.getToken(requireContext())
+        val jwt = JWT(token)
+        val id = jwt.getClaim("id").asInt()!!
+        val email = jwt.getClaim("email").asString()!!
+
         binding.apply {
-            val token = SharedPreferenceManager.getToken(requireContext())
-            val jwt = JWT(token)
-            val id = jwt.getClaim("id").asInt()!!
-            val name = jwt.getClaim("name").asString()!!
-            val email = jwt.getClaim("email").asString()!!
-            val username = jwt.getClaim("userName").asString()!!
+            val profile = Profile(email)
+            userProfileViewModel.getUserProfile(profile)
 
             userInitialsTxt.text = GetUserInitials.initials(context = requireContext())
-            userInitialNameTxt.text = name
-            userEmailTxt.text = email
 
             changePinLayout.setOnClickListener {
                 val changePasswordDialog = ChangePasswordDialog(id, email)
                 changePasswordDialog.show(parentFragmentManager, ChangePasswordDialog.TAG)
             }
+        }
 
-            editBtn.setOnClickListener {
-                val changeUserDialog = ChangeUserDialog(
-                    username = username,
-                    name = name,
-                    email = email,
-                    userId = id
-                )
-                changeUserDialog.show(parentFragmentManager, ChangeUserDialog.TAG)
+        subscribeState(id)
+    }
+
+    private fun subscribeState(userId: Int) {
+
+        binding.apply {
+            lifecycleScope.launchWhenStarted {
+
+                userProfileViewModel.userProfileState.collect { state ->
+                    if (state.isLoading) {
+                        progressBar.isVisible = state.isLoading
+                    }
+
+                    state.userProfile?.let { profile ->
+                        progressBar.isVisible = false
+                        userInitialNameTxt.text = profile.name
+                        userEmailTxt.text = profile.email
+
+
+                        editBtn.setOnClickListener {
+                            val changeUserDialog = ChangeUserDialog(
+                                username = profile.username,
+                                name = profile.name,
+                                email = profile.email,
+                                userId = userId
+                            )
+                            changeUserDialog.setListener(userDialogListener)
+                            changeUserDialog.show(parentFragmentManager, ChangeUserDialog.TAG)
+                        }
+                    }
+
+                    if (state.error.isNotEmpty()) {
+                        progressBar.isVisible = false
+                        showToast(state.error)
+                    }
+                }
             }
+        }
+    }
+
+    private val userDialogListener = object: ChangeUserDialog.UserDialogListener {
+        override fun onDismiss() {
+
+            val token = SharedPreferenceManager.getToken(requireContext())
+            val jwt = JWT(token)
+            val email = jwt.getClaim("email").asString()!!
+            val profile = Profile(email)
+            userProfileViewModel.getUserProfile(profile)
         }
     }
 }

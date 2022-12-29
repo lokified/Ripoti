@@ -48,10 +48,6 @@ class LoginFragment : Fragment() {
 
             progressBar.isVisible = false
 
-            backArrow.setOnClickListener {
-                findNavController().popBackStack()
-            }
-
             signUpBtn.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
                 findNavController().navigate(action)

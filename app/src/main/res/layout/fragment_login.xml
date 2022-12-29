@@ -6,17 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.auth.login.views.LoginFragment">
 
-    <ImageView
-        android:id="@+id/back_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:padding="4dp"
-        android:src="@drawable/ic_back_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -34,12 +23,12 @@
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:text="Let's log You in"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_arrow"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <com.google.android.material.textfield.TextInputLayout

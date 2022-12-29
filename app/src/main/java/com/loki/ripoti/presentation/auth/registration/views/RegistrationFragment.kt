@@ -109,6 +109,7 @@ class RegistrationFragment : Fragment() {
                 binding.registerBtn.setOnClickListener {
 
                     val user = User(
+                        id = 0,
                         name = "${firstname.value} ${lastname.value}",
                         email = email.value,
                         password = password.value
