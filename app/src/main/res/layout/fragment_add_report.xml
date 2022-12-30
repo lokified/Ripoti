@@ -26,8 +26,8 @@
                 android:id="@+id/back_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:src="@drawable/ic_back_arrow"
+                android:padding="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,6 +72,30 @@
             android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/card_local_user_bg"
+        app:layout_constraintStart_toEndOf="@+id/card_local_user_bg"
+        app:layout_constraintTop_toTopOf="@+id/card_local_user_bg">
+
+        <TextView
+            android:id="@+id/username_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="anonymous"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/@loki"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/et_add_report"

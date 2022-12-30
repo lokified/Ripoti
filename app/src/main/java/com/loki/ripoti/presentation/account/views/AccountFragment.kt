@@ -79,6 +79,7 @@ class AccountFragment : Fragment() {
                         progressBar.isVisible = false
                         userInitialNameTxt.text = profile.name
                         userEmailTxt.text = profile.email
+                        userUsernameTxt.text = profile.username
 
 
                         editBtn.setOnClickListener {

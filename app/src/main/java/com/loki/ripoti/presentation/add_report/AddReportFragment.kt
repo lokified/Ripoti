@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,8 @@ import com.loki.ripoti.util.extensions.navigateBack
 import com.loki.ripoti.util.extensions.showSnackBar
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddReportFragment : Fragment() {
@@ -43,48 +46,65 @@ class AddReportFragment : Fragment() {
         val token = SharedPreferenceManager.getToken(requireContext())
         val jwt = JWT(token)
 
-        val id = jwt.getClaim("id").asString()!!
+        val id = jwt.getClaim("id").asInt()!!
         val username = jwt.getClaim("userName").asString()!!
+        val name = jwt.getClaim("name").asString()!!
 
         binding.apply {
 
             localUserInitialsTxt.text = GetUserInitials.initials(context = requireContext())
+            usernameTxt.text = username
+            nameTxt.text = "@$name"
 
+            backArrow.setOnClickListener {
+                findNavController().popBackStack()
+            }
 
-            addReportBtn.setOnClickListener {
+            addReportBtn.isEnabled = false
+            etAddReport.doOnTextChanged { text, _, _, _ ->
+                addReportBtn.isEnabled = true
 
-                if (etAddReport.text.isNotEmpty()) {
-                    val description = etAddReport.text.toString()
-                    val report = Report(
-                        username, description
-                    )
-                    addReportViewModel.addReport(id.toInt(), report)
+                addReportBtn.setOnClickListener {
+
+                    if (text?.isNotEmpty()!!) {
+                        val description = etAddReport.text.toString()
+                        val report = Report(
+                            username, description
+                        )
+                        addReportViewModel.addReport(id, report)
+                    }
+                    root.hideKeyboard()
                 }
-                root.hideKeyboard()
             }
         }
 
         navigateBack()
 
-        setUpState()
+        subScribeState()
     }
 
-    private fun setUpState() {
+    private fun subScribeState() {
 
-        addReportViewModel.state.observe(viewLifecycleOwner) { result ->
+        lifecycleScope.launch {
+            addReportViewModel.state.collect { state ->
 
-            binding.progressBar.isVisible = result.isLoading
+                binding.progressBar.isVisible = state.isLoading
 
-            if (result.message.isNotEmpty()) {
-
-                if (result.message == "report added") {
-                    binding.root.showSnackBar(result.message)
-                    findNavController().popBackStack()
+                if (state.isLoading) {
+                    binding.addReportBtn.isEnabled = false
                 }
-            }
 
-            if (result.error.isNotEmpty()) {
-                showToast(result.error)
+                if (state.message.isNotEmpty()) {
+
+                    if (state.message == "report added") {
+                        binding.root.showSnackBar(state.message)
+                        findNavController().popBackStack()
+                    }
+                }
+
+                if (state.error.isNotEmpty()) {
+                    showToast(state.error)
+                }
             }
         }
     }

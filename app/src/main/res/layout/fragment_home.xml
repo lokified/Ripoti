@@ -25,7 +25,6 @@
                 android:id="@+id/card_user_bg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_margin="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardBackgroundColor="@color/bgColor1">
 
