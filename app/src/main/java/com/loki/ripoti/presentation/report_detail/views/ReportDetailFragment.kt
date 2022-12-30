@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import com.loki.ripoti.util.extensions.navigateBack
 import com.loki.ripoti.util.extensions.showSnackBar
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -43,7 +45,7 @@ class ReportDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setUpObservers()
+        subscribeState()
         binding.backArrow.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -78,17 +80,24 @@ class ReportDetailFragment : Fragment() {
 
             val id = jwt.getClaim("id").asString()!!
 
-            addCommentBtn.setOnClickListener {
-                val comment = Comment(
-                    commentEt.text.toString(),
-                    args.report.id
-                )
-                if(commentEt.text.isNotEmpty()) {
-                    addCommentBtn.isEnabled = false
-                    commentViewModel.addComment(id.toInt(), comment)
-                    root.hideKeyboard()
+            addCommentBtn.isEnabled = false
+
+            commentEt.doOnTextChanged { text, _, _, _ ->
+                addCommentBtn.isEnabled = true
+
+                addCommentBtn.setOnClickListener {
+                    val comment = Comment(
+                        commentEt.text.toString(),
+                        args.report.id
+                    )
+
+                    if(text?.isNotEmpty()!!) {
+                        commentViewModel.addComment(id.toInt(), comment)
+                        root.hideKeyboard()
+                    }
                 }
             }
+
 
             lifecycleScope.launchWhenStarted {
 
@@ -96,7 +105,7 @@ class ReportDetailFragment : Fragment() {
                     when(event) {
 
                         is CommentViewModel.AddCommentEvent.IsLoading -> {
-                            binding.noCommentTxt.text = "Loading."
+                            binding.addCommentBtn.isEnabled = false
                         }
 
                         is CommentViewModel.AddCommentEvent.ErrorAddComment -> {
@@ -118,43 +127,45 @@ class ReportDetailFragment : Fragment() {
         }
     }
 
-    private fun setUpObservers() {
+    private fun subscribeState() {
 
-        commentViewModel.state.observe(viewLifecycleOwner) { result ->
+        lifecycleScope.launch {
 
-            binding.progressBar.isVisible = result.isLoading
-            binding.retryBtn.isVisible = false
+            binding.apply {
+
+                commentViewModel.state.collect { state ->
+                    progressBar.isVisible = state.isLoading
+                    retryBtn.isVisible = false
 
 
-            if (result.comment.isNotEmpty()) {
-                binding.addCommentBtn.isEnabled = true
-                binding.noCommentTxt.isVisible = false
-                commentsAdapter.setComment(result.comment)
-                binding.commentsNumberTxt.text = if (result.comment.size == 1) {
-                    result.comment.size.toString() + " comment"
-                } else if(result.comment.size > 1) {
-                    result.comment.size.toString() + " comments"
-                } else {
-                    "No comments"
-                }
-            }
-            else{
-                if (result.isLoading){
-                    binding.noCommentTxt.text = "Loading."
-                }
-                else {
-                    binding.addCommentBtn.isEnabled = true
-                    showNoComments()
-                }
-            }
-            if (result.error.isNotBlank()) {
-                showToast(result.error)
+                    if (state.comment.isNotEmpty()) {
+                        noCommentTxt.isVisible = false
+                        commentsAdapter.setComment(state.comment)
+                        commentsNumberTxt.text = if (state.comment.size == 1) {
+                            state.comment.size.toString() + " comment"
+                        } else if(state.comment.size > 1) {
+                            state.comment.size.toString() + " comments"
+                        } else {
+                            "No comments"
+                        }
+                    }
+                    else{
+                        if (state.isLoading){
+                            noCommentTxt.text = "Loading Comments"
+                        }
+                        else {
+                            showNoComments()
+                        }
+                    }
+                    if (state.error.isNotBlank()) {
+                        showToast(state.error)
 
-                if (result.error == "check your internet connection") {
-                    binding.retryBtn.isVisible = true
-                    binding.addCommentBtn.isEnabled = true
-                    binding.retryBtn.setOnClickListener {
-                        commentViewModel.getComments(args.report.id)
+                        if (state.error == "check your internet connection") {
+                            retryBtn.isVisible = true
+                            retryBtn.setOnClickListener {
+                                commentViewModel.getComments(args.report.id)
+                            }
+                        }
                     }
                 }
             }

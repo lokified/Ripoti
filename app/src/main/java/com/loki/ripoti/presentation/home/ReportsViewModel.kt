@@ -22,8 +22,8 @@ class  ReportsViewModel @Inject constructor(
     private val reportsUseCase: ReportsUseCase
 ): ViewModel() {
 
-    private val _state = MutableLiveData(ReportState())
-    val state: LiveData<ReportState> = _state
+    private val _state = MutableStateFlow(ReportState())
+    val state = _state.asStateFlow()
 
     init {
         getReports()

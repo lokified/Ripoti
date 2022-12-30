@@ -8,10 +8,7 @@ import com.loki.ripoti.domain.model.Comment
 import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
 import com.loki.ripoti.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,8 +16,8 @@ class CommentViewModel @Inject constructor(
     private val commentsUseCase: CommentsUseCase
 ): ViewModel() {
 
-    private val _state = MutableLiveData(CommentState())
-    val state: LiveData<CommentState> = _state
+    private val _state = MutableStateFlow(CommentState())
+    val state = _state.asStateFlow()
 
     private val _addCommentEvent = MutableSharedFlow<AddCommentEvent>()
     val addCommentEvent = _addCommentEvent.asSharedFlow()

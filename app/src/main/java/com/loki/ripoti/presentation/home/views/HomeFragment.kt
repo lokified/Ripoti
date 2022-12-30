@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.loki.ripoti.util.extensions.lightStatusBar
 import com.loki.ripoti.util.extensions.setStatusBarColor
 import com.loki.ripoti.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
@@ -36,12 +38,13 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         setStatusBarColor(resources.getColor(R.color.white))
-        setUpObservers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lightStatusBar()
+
+        subscribeState()
 
         binding.apply {
 
@@ -72,27 +75,34 @@ class HomeFragment : Fragment() {
 
 
 
-    private fun setUpObservers() {
+    private fun subscribeState() {
 
-        reportsViewModel.state.observe(viewLifecycleOwner) { result ->
+        lifecycleScope.launchWhenStarted {
 
-            binding.progressBar.isVisible = result.isLoading
-            binding.retryBtn.isVisible = false
+            reportsViewModel.state.collect { state ->
 
-            if (result.reports.isNotEmpty()) {
-                reportAdapter.setReportList(result.reports)
-            }
-            else {
-                binding.noReportTxt.text = "No reports Available"
-            }
-            if (result.error.isNotBlank()) {
-                showToast(result.error)
+                binding.apply {
+                    progressBar.isVisible = state.isLoading
+                    retryBtn.isVisible = false
 
-                if (result.error == "check your internet connection") {
-                    binding.retryBtn.isVisible = true
+                    if (state.reports.isNotEmpty()){
+                        noReportTxt.text = ""
+                        reportAdapter.setReportList(state.reports)
+                    }
+                    else {
+                        noReportTxt.text = "No reports available"
+                    }
 
-                    binding.retryBtn.setOnClickListener {
-                        reportsViewModel.getReports()
+                    if (state.error.isNotBlank()) {
+                        showToast(state.error)
+
+                        if (state.error == "check your internet connection") {
+                            retryBtn.isVisible = true
+
+                            retryBtn.setOnClickListener {
+                                reportsViewModel.getReports()
+                            }
+                        }
                     }
                 }
             }
