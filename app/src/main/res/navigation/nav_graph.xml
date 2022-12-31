@@ -76,4 +76,9 @@
         android:name="com.loki.ripoti.presentation.account.views.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.loki.ripoti.presentation.news.views.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" />
 </navigation>

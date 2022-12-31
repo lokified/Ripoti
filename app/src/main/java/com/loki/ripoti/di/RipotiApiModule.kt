@@ -7,7 +7,6 @@ import com.loki.ripoti.data.repository.ReportsRepositoryImpl
 import com.loki.ripoti.domain.repository.CommentsRepository
 import com.loki.ripoti.domain.repository.AuthRepository
 import com.loki.ripoti.domain.repository.ReportsRepository
-import com.loki.ripoti.domain.repository.UserRepository
 import com.loki.ripoti.domain.useCases.auth.AuthUseCase
 import com.loki.ripoti.domain.useCases.auth.login.LoginUserUseCase
 import com.loki.ripoti.domain.useCases.auth.registration.RegisterUserUseCase
@@ -15,9 +14,6 @@ import com.loki.ripoti.domain.useCases.comments.AddCommentUseCase
 import com.loki.ripoti.domain.useCases.comments.CommentsUseCase
 import com.loki.ripoti.domain.useCases.comments.GetCommentsUseCase
 import com.loki.ripoti.domain.useCases.reports.*
-import com.loki.ripoti.domain.useCases.user.UpdateUserPasswordUseCase
-import com.loki.ripoti.domain.useCases.user.UpdateUserUseCase
-import com.loki.ripoti.domain.useCases.user.UserUseCase
 import com.loki.ripoti.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -36,7 +32,7 @@ object RipotiApiModule {
     fun provideRipotiApi(): RipotiApi {
 
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.RIPOTI_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RipotiApi::class.java)

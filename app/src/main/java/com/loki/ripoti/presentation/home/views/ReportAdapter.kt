@@ -23,7 +23,6 @@ class ReportAdapter(
     }
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
-        holder.binding.userIv.setImageDrawable(holder.itemView.context.getDrawable(R.drawable.test))
         holder.bind(reportList[position])
         holder.itemView.setOnClickListener {
             onItemClick(reportList[position])
