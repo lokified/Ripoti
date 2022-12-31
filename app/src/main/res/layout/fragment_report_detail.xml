@@ -61,6 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="SO"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textAllCaps="true"
                     android:layout_gravity="center"/>
@@ -159,8 +160,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/bgColor3">
+                app:cardCornerRadius="22dp"
+                app:cardBackgroundColor="@color/bgColor5">
 
                 <TextView
                     android:id="@+id/local_user_initials_txt"
@@ -168,6 +169,7 @@
                     android:layout_height="wrap_content"
                     tools:text="SO"
                     android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textAllCaps="true"
                     android:layout_gravity="center"/>
             </androidx.cardview.widget.CardView>
@@ -252,7 +254,7 @@
             android:id="@+id/comments_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
+            android:layout_marginBottom="250dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/comment_item_layout"/>
 

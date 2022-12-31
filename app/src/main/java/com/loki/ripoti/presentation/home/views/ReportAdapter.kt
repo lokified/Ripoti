@@ -2,6 +2,7 @@ package com.loki.ripoti.presentation.home.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.loki.ripoti.R
 import com.loki.ripoti.data.remote.response.Reports
@@ -27,6 +28,7 @@ class ReportAdapter(
         holder.itemView.setOnClickListener {
             onItemClick(reportList[position])
         }
+        setBackgroundColor(holder.binding.cardUserBg)
     }
 
     override fun getItemCount() = reportList.size
@@ -49,5 +51,14 @@ class ReportAdapter(
                 reportDateTxt.text = reports.created_on
             }
         }
+    }
+
+    private fun setBackgroundColor( cardView: CardView) {
+
+        val colors = listOf<Int>(
+            R.color.bgColor1, R.color.bgColor2, R.color.bgColor3, R.color.bgColor4,
+            R.color.bgColor5, R.color.bgColor6, R.color.bgColor7, R.color.bgColor8
+        )
+        cardView.setCardBackgroundColor(cardView.context.resources.getColor(colors.random()))
     }
 }

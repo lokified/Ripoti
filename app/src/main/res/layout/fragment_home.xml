@@ -26,13 +26,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/bgColor1">
+                app:cardBackgroundColor="@color/bgColor4">
 
                 <TextView
                     android:id="@+id/user_initials_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SO"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textAllCaps="true"
                     android:layout_gravity="center"/>

@@ -10,9 +10,12 @@
     <color name="hintColor">#525252</color>
     <color name="dashboardBgColor">#F7F7F7</color>
     <color name="navColor">#E6FCFF</color>
-    <color name="bgColor1">#70DDEC</color>
-    <color name="bgColor2">#E6FCFF</color>
-    <color name="bgColor3">#E6DA6D</color>
+    <color name="bgColor1">#31CEE4</color>
+    <color name="bgColor2">#E33C75</color>
+    <color name="bgColor3">#EF8EB0</color>
     <color name="bgColor4">#F1736A</color>
-    <color name="bgColor5">#9055FA</color>
+    <color name="bgColor5">#3CF5A5</color>
+    <color name="bgColor6">#95CF88</color>
+    <color name="bgColor7">#EFD89B</color>
+    <color name="bgColor8">#A8719F</color>
 </resources>
