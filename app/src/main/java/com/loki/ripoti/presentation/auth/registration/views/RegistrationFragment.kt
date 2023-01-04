@@ -19,6 +19,7 @@ import com.loki.ripoti.util.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
@@ -26,11 +27,6 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel : RegistrationViewModel by viewModels()
-    private val firstname = MutableStateFlow("")
-    private val lastname = MutableStateFlow("")
-    private val email = MutableStateFlow("")
-    private val password = MutableStateFlow("")
-    private val conPassword = MutableStateFlow("")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,27 +49,77 @@ class RegistrationFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-            etFirstName.doOnTextChanged { text, _, _, _ ->
-                firstname.value = text.toString()
-            }
-            etLastName.doOnTextChanged { text, _, _, _ ->
-                lastname.value = text.toString()
-            }
-            etEmail.doOnTextChanged { text, _, _, _ ->
-                email.value = text.toString()
-            }
-            etPassword.doOnTextChanged { text, _, _, _ ->
-                password.value = text.toString()
-            }
-            etConPassword.doOnTextChanged { text, _, _, _ ->
-                conPassword.value = text.toString()
-            }
+            viewModel.apply {
+                etFirstName.doOnTextChanged { text, _, _, _ ->
 
+                    if (text?.isNotEmpty()!!) {
+                        onEvent(RegistrationViewModel.RegistrationFormEvent.FirstNameChanged(text.toString()))
+                        registerState.value.firstnameError = null
+                    }
+                    else {
+                        registerState.value.firstname = ""
+                    }
+                }
+                etLastName.doOnTextChanged { text, _, _, _ ->
+                    if (text?.isNotEmpty()!!) {
+                        onEvent(RegistrationViewModel.RegistrationFormEvent.LastNameChanged(text.toString()))
+                        registerState.value.lastnameError = null
+                    }
+                    else {
+                        registerState.value.lastname = ""
+                    }
+                }
+                etEmail.doOnTextChanged { text, _, _, _ ->
+                    if (text?.isNotEmpty()!!) {
+                        onEvent(RegistrationViewModel.RegistrationFormEvent.EmailChanged(text.toString()))
+                        registerState.value.emailError = null
+                    }
+                    else {
+                        registerState.value.email = ""
+                    }
+                }
+                etPassword.doOnTextChanged { text, _, _, _ ->
+                    if (text?.isNotEmpty()!!) {
+                        onEvent(RegistrationViewModel.RegistrationFormEvent.PasswordChanged(text.toString()))
+                        registerState.value.passwordError = null
+                    }
+                    else {
+                        registerState.value.password = ""
+                    }
+                }
+                etConPassword.doOnTextChanged { text, _, _, _ ->
+                    if (text?.isNotEmpty()!!) {
+                        onEvent(RegistrationViewModel.RegistrationFormEvent.ConPasswordChanged(text.toString()))
+                        registerState.value.conPasswordError = null
+                    }
+                    else {
+                        registerState.value.conPassword = ""
+                    }
+                }
+
+                registerBtn.setOnClickListener {
+                    onEvent(RegistrationViewModel.RegistrationFormEvent.Submit)
+                }
+            }
         }
-        subscribeEvents()
 
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.registerState.collect { event ->
+
+            viewModel.registerState.collect { state ->
+
+                binding.apply {
+                    lFirstName.helperText = state.firstnameError
+                    lLastName.helperText = state.lastnameError
+                    lEmail.helperText = state.emailError
+                    lPassword.helperText = state.passwordError
+                    lConPassword.helperText = state.conPasswordError
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+
+            viewModel.registerEvent.collectLatest { event ->
 
                 when(event) {
 
@@ -99,98 +145,5 @@ class RegistrationFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun subscribeEvents() {
-
-        lifecycleScope.launch {
-
-            formIsValid.collect { event ->
-                binding.registerBtn.setOnClickListener {
-
-                    val user = User(
-                        id = 0,
-                        name = "${firstname.value} ${lastname.value}",
-                        email = email.value,
-                        password = password.value
-                    )
-
-                    if (event) {
-                        viewModel.registerUser(user)
-                    }
-                }
-            }
-
-            delay(3000L)
-        }
-    }
-
-
-    private val formIsValid = combine(
-        firstname, lastname, email, password, conPassword
-    ) {
-        firstname, lastname, email, password, conPassword ->
-
-        val firstnameNotEmpty = firstname.isNotEmpty()
-        val lastnameNotEmpty = lastname.isNotEmpty()
-        val emailNotEmpty = email.isNotEmpty()
-        val emailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        val passwordNotEmpty = password.isNotEmpty()
-        val passwordValid = password.length >= 6
-        val conPasswordNotEmpty = conPassword.isNotEmpty()
-        val passwordMatch = password == conPassword
-
-        binding.apply {
-
-            lFirstName.helperText = null
-            lLastName.helperText = null
-            lEmail.helperText = null
-            lPassword.helperText = null
-            lConPassword.helperText = null
-
-            when {
-                firstnameNotEmpty.not() -> {
-                    lFirstName.helperText = "Please enter first name"
-                }
-
-                lastnameNotEmpty.not() -> {
-                    lLastName.helperText = "Please enter last name"
-                }
-
-                emailNotEmpty.not() -> {
-                    lEmail.helperText = "Please enter email"
-                }
-
-                emailValid.not() -> {
-                    lEmail.helperText = "Please enter a valid email"
-                }
-
-                passwordNotEmpty.not() -> {
-                    lPassword.helperText = "Please enter password"
-                }
-
-                passwordValid.not() -> {
-                    lPassword.helperText = "Password must have more than  or 6 characters"
-                }
-
-                conPasswordNotEmpty.not() -> {
-                    lConPassword.helperText = "Please confirm password"
-                }
-
-                passwordMatch.not() -> {
-                    lConPassword.helperText = "Passwords do not match"
-                }
-
-                else -> {
-                    lFirstName.helperText = null
-                    lLastName.helperText = null
-                    lEmail.helperText = null
-                    lPassword.helperText = null
-                    lConPassword.helperText = null
-                }
-            }
-        }
-        firstnameNotEmpty and lastnameNotEmpty and emailNotEmpty and passwordNotEmpty and conPasswordNotEmpty and passwordMatch
-
     }
 }

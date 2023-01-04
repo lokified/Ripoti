@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.loki.ripoti.databinding.FragmentChangeUserDialogBinding
-import com.loki.ripoti.domain.model.Password
 import com.loki.ripoti.domain.model.UserUpdate
 import com.loki.ripoti.presentation.account.UserUpdateViewModel
 import com.loki.ripoti.util.extensions.showToast

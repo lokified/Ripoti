@@ -21,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -29,8 +31,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
-    private val email = MutableStateFlow("")
-    private val password = MutableStateFlow("")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,23 +49,51 @@ class LoginFragment : Fragment() {
             progressBar.isVisible = false
 
             signUpBtn.setOnClickListener {
-                val action = LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
-                findNavController().navigate(action)
+                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
 
-            etEmail.doOnTextChanged { text, _, _, _ ->
-                email.value = text.toString()
-            }
-            etPassword.doOnTextChanged { text, _, _, _ ->
-                password.value = text.toString()
+            viewModel.apply {
+                etEmail.doOnTextChanged { text, _, _, _ ->
+
+                    if (text?.isNotEmpty()!!){
+                        onEvent(LoginViewModel.LoginFormEvent.EmailChanged(text.toString()))
+                        loginState.value.emailError = null
+                    }
+                    else {
+                        loginState.value.email = ""
+                    }
+                }
+                etPassword.doOnTextChanged { text, _, _, _ ->
+
+                    if (text?.isNotEmpty()!!){
+                        onEvent(LoginViewModel.LoginFormEvent.PasswordChanged(text.toString()))
+                        loginState.value.passwordError = null
+                    }
+                    else{
+                        loginState.value.password = ""
+                    }
+                }
+
+                loginBtn.setOnClickListener {
+                    onEvent(LoginViewModel.LoginFormEvent.Submit)
+                    root.hideKeyboard()
+                }
             }
         }
 
-        subscribeLoginEvent()
 
         CoroutineScope(Dispatchers.Main).launch {
+            viewModel.loginState.collectLatest { state ->
+                binding.apply {
+                    lEmail.helperText = state.emailError
+                    lPassword.helperText = state.passwordError
+                }
+            }
+        }
 
-            viewModel.loginEvent.collect { event ->
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.loginEvent.collectLatest { event ->
 
                 when(event) {
                     is LoginViewModel.LoginEvent.LoginLoading -> {
@@ -92,59 +120,5 @@ class LoginFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun subscribeLoginEvent() {
-
-        lifecycleScope.launch {
-            formIsValid.collect { event ->
-                binding.loginBtn.setOnClickListener {
-
-                    binding.root.hideKeyboard()
-                    val login = Login(email.value, password.value)
-
-                    if (event) {
-                        viewModel.loginUser(login)
-                    }
-                }
-            }
-        }
-    }
-
-    private val formIsValid = combine(
-        email, password
-    ) {
-             email, password ->
-
-        val emailNotEmpty = email.isNotEmpty()
-        val emailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        val passwordNotEmpty = password.isNotEmpty()
-
-        binding.apply {
-
-            lEmail.helperText = null
-            lPassword.helperText = null
-
-            when {
-
-                emailNotEmpty.not() -> {
-                    lEmail.helperText = "Please enter email"
-                }
-
-                emailValid.not() -> {
-                    lEmail.helperText = "Please enter a valid email"
-                }
-
-                passwordNotEmpty.not() -> {
-                    lPassword.helperText = "Please enter password"
-                }
-
-                else -> {
-                    lEmail.helperText = null
-                    lPassword.helperText = null
-                }
-            }
-        }
-        emailNotEmpty and passwordNotEmpty and emailValid
     }
 }

@@ -3,7 +3,6 @@ package com.loki.ripoti.presentation.account
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.loki.ripoti.domain.model.Password
-import com.loki.ripoti.domain.model.User
 import com.loki.ripoti.domain.model.UserUpdate
 import com.loki.ripoti.domain.useCases.user.UserUseCase
 import com.loki.ripoti.util.Resource

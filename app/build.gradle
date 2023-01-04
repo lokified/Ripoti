@@ -105,15 +105,4 @@ dependencies {
     //jwt
     implementation 'com.auth0.android:jwtdecode:2.0.1'
     implementation 'io.jsonwebtoken:jjwt:0.7.0'
-
-    //datastore
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
-
-    //scarlet
-//    implementation 'com.tinder.scarlet:scarlet:0.1.12'
-//    implementation 'com.tinder.scarlet:websocket-okhttp:0.1.11'
-//    implementation 'com.tinder.scarlet:message-adapter-gson:0.1.11'
-//    implementation 'com.tinder.scarlet:stream-adapter-coroutines:0.1.11'
-//
-//    implementation 'com.github.hantrungkien:tinder-scarlet-lifecycle-android:1.0.0'
 }
