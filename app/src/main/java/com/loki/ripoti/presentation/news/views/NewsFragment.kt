@@ -68,25 +68,12 @@ class NewsFragment: Fragment() {
                     if (state.error.isNotEmpty()) {
                         progressBar.isVisible = false
                         showToast(state.error)
-
-                        if (state.error == "check your internet connection") {
-                            retryGettingNews()
-                        }
                     }
                 }
             }
         }
     }
 
-    private fun retryGettingNews() {
-        binding.apply {
-            retryBtn.isVisible = true
-            retryBtn.setOnClickListener {
-                newsViewModel.getNews()
-                progressBar.isVisible = true
-            }
-        }
-    }
 
     private fun hideOnLoading() {
         binding.apply {

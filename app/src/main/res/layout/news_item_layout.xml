@@ -1,59 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:layout_margin="8dp"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/news_title_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Title"
-            android:maxLines="2"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_margin="8dp">
 
-        <TextView
-            android:id="@+id/news_desc_txt"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/news_title_txt"
-            tools:text="@tools:sample/lorem/random" />
+            <TextView
+                android:id="@+id/news_title_txt"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                tools:text="Title"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/news_img_iv"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/news_desc_txt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/news_desc_txt"
-            tools:src="@tools:sample/avatars" />
+            <TextView
+                android:id="@+id/news_desc_txt"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news_title_txt"
+                tools:text="@tools:sample/lorem/random" />
 
+            <ImageView
+                android:id="@+id/news_img_iv"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#DFDCDC"/>
         <TextView
             android:id="@+id/readmore_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/read_more"
-            android:padding="4dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/news_img_iv"
-            app:layout_constraintStart_toStartOf="@+id/news_img_iv"
-            app:layout_constraintTop_toBottomOf="@+id/news_img_iv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:padding="4dp"
+            android:layout_margin="8dp"
+            android:text="@string/read_more"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

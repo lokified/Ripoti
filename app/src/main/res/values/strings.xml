@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Ripoti</string>
-    <string name="read_more"><u>Read more</u></string>
+    <string name="read_more">Read more</string>
 </resources>
